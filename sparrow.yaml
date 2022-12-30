@@ -1,0 +1,38 @@
+tasks:
+  -
+    name: test
+    default: true
+    language: Bash
+    code: |
+      set -e
+      cd source/
+      cat conf.yml
+      trove-cli -c --f=`pwd`/test.conf.yml --p=yq
+    depends:
+      -
+        name: prepare-conf
+      -
+        name: install
+  -
+    name: prepare-conf
+    language: Bash
+    code: |
+      set -e
+      cd source/
+      cat << 'HERE' > test.conf.yml
+        target: Trove dynamic tests
+        explore:
+          base: ./t
+          pattern: (<[013]>+).(t|rakutest)
+          interpreter: raku
+          recursive: 1
+      HERE
+  -
+    name: install
+    language: Bash
+    code: |
+      set -e
+      cd source/
+      git remote update origin --prune
+      git checkout explore-feature
+      zef install . --/test
