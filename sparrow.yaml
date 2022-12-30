@@ -6,7 +6,7 @@ tasks:
     code: |
       set -e
       cd source/
-      cat conf.yml
+      cat test.conf.yml
       trove-cli -c --f=`pwd`/test.conf.yml --p=yq
     depends:
       -
