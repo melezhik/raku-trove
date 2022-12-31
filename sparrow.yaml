@@ -1,3 +1,5 @@
+secrets:
+  - COVERALLSTOKEN
 tasks:
   -
     name: test
@@ -7,6 +9,7 @@ tasks:
       set -e
       cd source/
       cat test.conf.yml
+      CI_JOB_ID=`date +%s` \
       trove-cli -c --f=`pwd`/test.conf.yml --p=yq
     depends:
       -
